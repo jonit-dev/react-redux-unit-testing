@@ -3,21 +3,42 @@ import "./App.css";
 import React, { useState } from "react";
 import styled from "styled-components";
 
+import { Counter } from "./components/Counter";
+
 function App() {
   const [count, setCount] = useState<number>(0);
 
-  const onIncrementCounter = () => {
-    setCount(count + 1);
+  const onCounterChange = (type: "INCREMENT" | "DECREMENT") => {
+    switch (type) {
+      case "INCREMENT":
+        setCount(count + 1);
+        break;
+      case "DECREMENT":
+        count > 0
+          ? setCount(count - 1)
+          : alert("The counter cannot go below 0!");
+        break;
+    }
   };
 
   return (
-    <></>
-    // <Container>
-    //   <Counter count={count} />
-    //   <ButtonContainer>
-    //     <button onClick={onIncrementCounter}>Increment counter</button>
-    //   </ButtonContainer>
-    // </Container>
+    <Container data-test="component-app">
+      <Counter count={count} data-test="counter-display" />
+      <ButtonContainer>
+        <button
+          onClick={() => onCounterChange("INCREMENT")}
+          data-test="increment-button"
+        >
+          Increment counter
+        </button>
+        <button
+          onClick={() => onCounterChange("DECREMENT")}
+          data-test="decrement-button"
+        >
+          Decrement counter
+        </button>
+      </ButtonContainer>
+    </Container>
   );
 }
 
